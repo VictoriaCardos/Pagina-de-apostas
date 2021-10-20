@@ -14,24 +14,33 @@
 
   var arr = []; //array usado para armazenar buttons 
   var qtdButton; // usado para saber a quantidade de buttons
+
+  var $btn;
+  var newArr =[];//usado para guardar os numeros dos buttons selecionados
   
+  var maxNumber; //guarda o numero máximo de cada jogo
+
+  var arrValue = []; //guarda os values dos buttos selecionados para eu poder verificar se ele já existe e poder remover do newArr depois
 
   $btn0.onclick = function clickButton(){
     cont= 0
     chooseGame();
     verifyBtn()
+    newArr = [];
   };
 
   $btn1.onclick = function clickButton(){
     cont= 1
     chooseGame();
     verifyBtn()
+    newArr = [];
   };
 
   $btn2.onclick = function clickButton(){
     cont= 2
     chooseGame();
     verifyBtn()
+    newArr = []
   };
 
   function chooseGame(){ 
@@ -46,16 +55,19 @@
         if(cont == 0){
             $type.textContent = data.types[0].type;
             $description.textContent = data.types[0].description;
+            maxNumber = data.types[0].maxnumber;
         }
         
         if(cont == 1){
             $type.textContent = data.types[1].type;
             $description.textContent = data.types[1].description;
+             maxNumber = data.types[1].maxnumber;
         } 
         
         if(cont == 2){
             $type.textContent = data.types[2].type;
             $description.textContent = data.types[2].description;
+             maxNumber = data.types[2].maxnumber;
         } 
       }
     }
@@ -81,10 +93,13 @@
   function createButton(){
     clearChildren()
     for(var i=0; i<qtdButton; i++){
-      var $btn = doc.createElement('button');
+      $btn = doc.createElement('button');
       $btn.setAttribute('id','meuId');
-      $btn.textContent = 'x';
-      arr.push($btn);
+      $btn.textContent = Math.floor(Math.random()*100);
+      $btn.setAttribute('value',i );
+      $btn.setAttribute('type', 'button' );
+      
+      arr.push($btn);      
     }
     if(arr.length-qtdButton==0){
       insertOnpage()
@@ -96,12 +111,55 @@
       arr.length = 0;
       $containerBtn.innerText = "";
     }
-  }
+  }  
 
   function insertOnpage(){
     arr.forEach(function(button){
       $containerBtn.appendChild(button);
     })
+    getSelectButton()
+  }
+
+//fiz com que a função retorne um for each em que cada btn vai ter um .onclick e dentro vou dar um push no newArr se ele ja não foi selecionado
+
+  function getSelectButton(){
+    arr.forEach(function(button){
+      button.onclick = function clickButton(){
+      
+        if( newArr.length<=maxNumber-1 ||button.style.backgroundColor == "green" ){
+          
+          var some = newArr.some(function(item){
+            return item == button.textContent
+          });
+          var some2 = arrValue.some(function(item){
+            return item == button.value
+          });
+          if(some && some2){ 
+            var buscar = button.value;
+            var indice = arrValue.indexOf(buscar);
+            while(indice>=0){
+              arrValue.splice(indice,1);
+              indice = arrValue.indexOf(buscar)
+            }
+
+            var buscar2 = button.textContent;
+            var indice2 = newArr.indexOf(buscar2);
+            while(indice2>=0){
+              newArr.splice(indice2,1);
+              indice2 = newArr.indexOf(buscar2)
+            }
+          
+            button.style.backgroundColor = "gray";
+          }else{
+            arrValue.push(button.value)
+            newArr.push(button.textContent) 
+            button.style.backgroundColor = "green";
+            
+          }
+        }
+        
+      }
+    });   
   }
 
 })(window, document);
