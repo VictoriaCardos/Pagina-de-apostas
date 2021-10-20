@@ -121,7 +121,6 @@
   }
 
 //fiz com que a função retorne um for each em que cada btn vai ter um .onclick e dentro vou dar um push no newArr se ele ja não foi selecionado
-
   function getSelectButton(){
     arr.forEach(function(button){
       button.onclick = function clickButton(){
