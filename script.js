@@ -15,7 +15,7 @@
   var $containerBtn = doc.querySelector('[data-js="containerBtn"]');
 
   var $divContainerCart = doc.querySelector('[data-js="containerCart"]');
-  var $total = doc.querySelector('[data-js="total"]');
+  var  $total = doc.querySelector('[data-js="total"]');
 
   var cont // usado para determinar qual button vou pegar informações
 
@@ -33,6 +33,9 @@
   var arrPosition = [];
 
   $btn0.onclick = function clickButton(){
+   $btn1.removeAttribute('id');
+   $btn2.removeAttribute('id');
+    $btn0.setAttribute('id','buttonLotofacilClick')
     cont= 0
     chooseGame();
     verifyBtn()
@@ -41,6 +44,9 @@
   };
 
   $btn1.onclick = function clickButton(){
+    $btn0.removeAttribute('id');
+    $btn2.removeAttribute('id');
+    $btn1.setAttribute('id','buttonMegaClick')
     cont= 1
     chooseGame();
     verifyBtn()
@@ -49,6 +55,9 @@
   };
 
   $btn2.onclick = function clickButton(){
+    $btn0.removeAttribute('id');
+    $btn1.removeAttribute('id');
+    $btn2.setAttribute('id','buttonLotomaniaClick')
     cont= 2
     chooseGame();
     verifyBtn()
@@ -69,7 +78,6 @@
   }
 
   $btnAddToCart.onclick = function clickButton(){
-    //ele vai criar uma div dentro da div containerCart depois do h2 tendo como conteudo os valores de newArr e qual o tipo de jogo.
     createDivInfos();
   }
 
@@ -207,7 +215,6 @@
     }
     //faço um push do textContent em que a posição indicar e mudo a cor dele.
     makeGreen();
-    
   }
 
   var createNumberUnic = function createNumberUnic(){
@@ -248,13 +255,31 @@
     }
   }
 var valueTotal =0
+
+
   function createDivInfos(){
-    $divContainerCart.insertAdjacentHTML("beforeend",`<div>${newArr}
-    <div>${$type.textContent}<span> R\$ ${price}</span></div></div>` )
-    valueTotal = valueTotal + price;    
+    $divContainerCart.insertAdjacentHTML("afterbegin",`
+    <button data-js="remove">X</button>
+    <div data-js="removeDiv">${newArr}
+    <div>${$type.textContent}<span data-js="priceGame"> R\$ ${price}</span></div></div>` )
+    valueTotal = valueTotal + price;  
+    updateTotal()  
+
+    var $btnRemove = doc.querySelector('[data-js="remove"]');
+    var $btnRemoveDiv = doc.querySelector('[data-js="removeDiv"]');
+    var $priceGame = doc.querySelector('[data-js="priceGame"]');
+    $btnRemove.onclick = function clickButton(){
+      $btnRemove.parentNode.removeChild($btnRemove);
+      $btnRemoveDiv.parentNode.removeChild($btnRemoveDiv);
+      valueTotal = valueTotal - $priceGame.textContent.replace(/R\$/g,'');
+      updateTotal()
+      console.log($priceGame.textContent.replace(/R\$/g,''))
+    }
   }
-  //tenho que dar um jeito de deixar o valor total dinâmico
+
+  function updateTotal(){
+    $total.textContent = '';
+    $total.insertAdjacentHTML("beforeend",`TOTAL R\$ ${valueTotal}`);
+  }
   
-
-
 })(window, document);
