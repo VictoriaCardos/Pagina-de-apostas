@@ -8,12 +8,15 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <h3>NEW BE FOR <span data-js="type"></span></h3>
+    <h3>NEW BET
+     <span class="typeGame">FOR</span> 
+      <span data-js="type" class="typeGame"></span></h3>
     <h4>Choose a game</h4>
 
-    <button type="button" data-js="btn0">Lotofácil</button>
-    <button type="button" data-js="btn1">Mega-Sena</button>
-    <button type="button" data-js="btn2">Lotomania</button>
+
+    <button type="button" class="buttonLotofacil" data-js="btn0">Lotofácil</button>   
+    <button type="button" class="buttonMega" data-js="btn1">Mega-Sena</button>
+    <button type="button" class="buttonLotomania" data-js="btn2">Lotomania</button>
 
     <h4>Fill your bet</h4>
     <p data-js="description"></p>
@@ -24,9 +27,14 @@
     <button type="button" data-js="clearGame">Clear Game</button>
     <button type="button" data-js="addToCart">Add to Cart</button>
     
+    <h2>CART</h2>
    <div data-js="containerCart" div="containerCart">
-     <h2>CART</h2>
-     
+      <span>CART </span>
+      <span data-js="total">TOTAL R$ </span>
+   </div>
+
+   <div>
+    <button>Save</button>
    </div>
     <script src="script.js"></script>
   </body>
